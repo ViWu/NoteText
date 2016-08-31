@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         extraPosition = setsIntent.getIntExtra("pos",0);*/
         final Intent editIntent = getIntent();
         setName = editIntent.getStringExtra("name");
-        FileRead();
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         questions = new ArrayList<String>();
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        FileRead();
     }
 
     @Override
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("questions", questions);
             intent.putExtra("answers", answers);
             intent.putExtra("position", extraPosition);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+           // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             FileWrite();
             startActivity(intent);
             return true;
@@ -171,8 +171,9 @@ public class MainActivity extends AppCompatActivity {
     private void FileWrite(){
         try {
             FileOutputStream fOut = openFileOutput(setName+".txt",0);
-            String data = setName + "\r\n";
-            fOut.write(data.getBytes());
+            String data = "";
+            //String data = setName + "\r\n";
+            //fOut.write(data.getBytes());
             for(int i=0; i <questions.size();i++){
                 data = questions.get(i) + "\r\n";
                 fOut.write(data.getBytes());
@@ -192,18 +193,22 @@ public class MainActivity extends AppCompatActivity {
     private void FileRead(){
         try{
             FileInputStream fin = openFileInput(setName+".txt");
-            int c;
+            int c, row=0;
             String temp="";
 
             while( (c = fin.read()) != -1){
                 temp = temp + Character.toString((char)c);
-                if(Character.toString((char)c).equals('\n')){
-                    Toast.makeText(getBaseContext(),temp,Toast.LENGTH_SHORT).show();
+                if(temp.contains("\r\n")){
+                    temp = temp.substring(0, temp.length()-1);
+                    if((row & 1) == 0)
+                         itemsAdapter.add(temp);
+                    else
+                        answers.add(temp);
+                    temp = "";
+                    row++;
                 }
-               // Toast.makeText(getBaseContext(),temp,Toast.LENGTH_SHORT).show();
             }
 
-            //Toast.makeText(getBaseContext(),temp,Toast.LENGTH_SHORT).show();
             fin.close();
         }
         catch(Exception e){

@@ -177,7 +177,7 @@ public class MainMenu extends AppCompatActivity {
                 intent[0].putExtra("name", Names.get(position));
                 /*intent[0].putExtra("set", Sets.get(position));
                 intent[0].putExtra("pos", position);*/
-                intent[0].setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                //intent[0].setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent[0]);
             }
         });
