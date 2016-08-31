@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="myapplication.flashcards.MainActivity" >
+    <item android:id="@+id/action_settings"
+        android:title="Settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_shufflereview"
+        android:title="Shuffle and Review"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_review"
+        android:title="Review"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_sets"
+        android:title="View all Sets"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+</menu>

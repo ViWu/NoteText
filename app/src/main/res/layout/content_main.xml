@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="myapplication.flashcards.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:background="@layout/bg"
+
+    >
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="460dp"
+        android:id="@+id/lvItems"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/textField" />
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/textField"
+        android:background="@layout/textbox"
+        android:padding="15dp"
+        android:layout_toLeftOf="@+id/btnAddItem"
+        android:layout_alignTop="@+id/btnAddItem"
+        android:layout_alignLeft="@+id/lvItems"
+        android:layout_alignStart="@+id/lvItems"
+        android:hint="Type to add question..."/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:id="@+id/btnAddItem"
+        android:background="@layout/button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/lvItems"
+        android:layout_alignEnd="@+id/lvItems" />
+
+</RelativeLayout>
