@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static ArrayList<String> questions;
     private static ArrayList<String> answers;
     private ArrayList<Set> Sets;
-    private ArrayAdapter<String> itemsAdapter;
+    private static ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
     private int extraPosition;
     private int position;
@@ -40,20 +40,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //get Set and Set# from MainMenu
-       /* final Intent setsIntent = getIntent();
-        Sets = setsIntent.getParcelableArrayListExtra("sets");
-        extraPosition = setsIntent.getIntExtra("pos",0);*/
+
         final Intent editIntent = getIntent();
         setName = editIntent.getStringExtra("name");
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         questions = new ArrayList<String>();
         answers = new ArrayList<String>();
-       // questions = Sets.get(extraPosition).getQuestions();
-       // answers = Sets.get(extraPosition).getAnswers();
 
-        //readItems();
+        //set up adapter and listeners
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, questions);
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
@@ -74,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        FileRead();
+        fileRead();
     }
 
     @Override
@@ -109,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("answers", answers);
             intent.putExtra("position", extraPosition);
            // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            FileWrite();
+            fileWrite();
             startActivity(intent);
             return true;
         }
@@ -144,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
                                  })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-                     //writeItems();
                     // Return true consumes the long click event (marks it handled)
                  return true;
                     }
@@ -158,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 intent[0].putExtra("questions", questions.get(position));
                 intent[0].putExtra("answers", answers.get(position));
                 intent[0].putExtra("position", position);
+                intent[0].putExtra("setName", setName);
                 startActivity(intent[0]);
             }
         });
@@ -168,12 +163,10 @@ public class MainActivity extends AppCompatActivity {
     /*
     Writes data to internal storage.
     */
-    private void FileWrite(){
+    private void fileWrite(){
         try {
             FileOutputStream fOut = openFileOutput(setName+".txt",0);
             String data = "";
-            //String data = setName + "\r\n";
-            //fOut.write(data.getBytes());
             for(int i=0; i <questions.size();i++){
                 data = questions.get(i) + "\r\n";
                 fOut.write(data.getBytes());
@@ -189,22 +182,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*Reads from internal storage and loads.*/
-    private void FileRead(){
+    /*Reads from internal storage, parses the data, then loads into current activity.*/
+    private void fileRead(){
         try{
             FileInputStream fin = openFileInput(setName+".txt");
             int c, row=0;
-            String temp="";
+            String data="";
 
             while( (c = fin.read()) != -1){
-                temp = temp + Character.toString((char)c);
-                if(temp.contains("\r\n")){
-                    temp = temp.substring(0, temp.length()-1);
+                data = data + Character.toString((char)c);
+                if(data.contains("\r\n")){
+                    data = data.substring(0, data.length()-1);
                     if((row & 1) == 0)
-                         itemsAdapter.add(temp);
+                         itemsAdapter.add(data);
                     else
-                        answers.add(temp);
-                    temp = "";
+                        answers.add(data);
+                    data = "";
                     row++;
                 }
             }
@@ -216,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     //if randomize is true, then shuffle. Else use default order
     private void shuffle(String randomize){
         if (getSize() <= 0)
@@ -226,6 +218,10 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("shuffle", randomize);
             startActivity(intent);
         }
+    }
+
+    protected static void refreshAdapter(){
+        itemsAdapter.notifyDataSetChanged();
     }
 
     protected int getPos() {

@@ -7,10 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.io.FileOutputStream;
 
 public class EditCard extends AppCompatActivity {
 
     private Intent intent = null;
+    String setName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,7 @@ public class EditCard extends AppCompatActivity {
 
         //get Intent from MainActivity
         final Intent editIntent = getIntent();
+        setName = editIntent.getStringExtra("setName");
 
         //set edit text boxes if questions and answers are already saved
         EditText questionSet = (EditText) findViewById(R.id.questionField);
@@ -59,6 +64,9 @@ public class EditCard extends AppCompatActivity {
                 MainActivity.setAnswers(pos, answer);
                 MainActivity.setQuestions(pos,question);
 
+                fileWrite();
+                MainActivity.refreshAdapter();
+
                 intent = new Intent(EditCard.this,MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
@@ -66,6 +74,26 @@ public class EditCard extends AppCompatActivity {
             }
 
         });
+    }
+
+
+    private void fileWrite(){
+        try {
+            FileOutputStream fOut = openFileOutput(setName+".txt",0);
+            String data = "";
+            for(int i=0; i <MainActivity.getSize();i++){
+                data = MainActivity.getQuestions(i) + "\r\n";
+                fOut.write(data.getBytes());
+                data = MainActivity.getAnswers(i)  + "\r\n";
+                fOut.write(data.getBytes());
+            }
+            fOut.close();
+            Toast.makeText(getBaseContext(),"Changes saved!",Toast.LENGTH_SHORT).show();
+        }
+
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

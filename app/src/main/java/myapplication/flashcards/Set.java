@@ -16,9 +16,6 @@ public class Set extends ParcelableSparseArray{
         questions = new ArrayList<String>();
         answers = new ArrayList<String>();
 
-        //test
-        questions.add("test");
-        answers.add("test answer");
     }
 
     public void setName(String str){

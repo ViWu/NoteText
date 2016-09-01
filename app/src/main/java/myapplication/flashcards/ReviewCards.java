@@ -3,6 +3,7 @@ package myapplication.flashcards;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +52,7 @@ public class ReviewCards extends AppCompatActivity {
                     InitializeFields(index);
                 }
                 else
-                    Toast.makeText(getApplicationContext(), "No more cards", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(v, "No more cards", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
 
         });
@@ -68,7 +68,7 @@ public class ReviewCards extends AppCompatActivity {
                     InitializeFields(index);
                 }
                 else
-                    Toast.makeText(getApplicationContext(), "None have been shown before", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(v, "None have been shown before", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
 
         });
@@ -100,6 +100,13 @@ public class ReviewCards extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void InitializeFields(int index){
+        TextView questionField = (TextView)findViewById(R.id.question);
+        questionField.setText(MainActivity.getQuestions(shuffledDeck.get(index)));
+        TextView answerField = (TextView)findViewById(R.id.answer);
+        answerField.setText("");
+    }
+
     public void InitializeDeck(){
         Intent shuffleIntent = getIntent();
         String bool = shuffleIntent.getStringExtra("shuffle");
@@ -112,10 +119,4 @@ public class ReviewCards extends AppCompatActivity {
             Collections.shuffle(shuffledDeck);
     }
 
-    public void InitializeFields(int index){
-        TextView questionField = (TextView)findViewById(R.id.question);
-        questionField.setText(MainActivity.getQuestions(shuffledDeck.get(index)));
-        TextView answerField = (TextView)findViewById(R.id.answer);
-        answerField.setText("");
-    }
 }

@@ -3,6 +3,8 @@ package myapplication.flashcards;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,15 +17,16 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class MainMenu extends AppCompatActivity {
 
     private ArrayAdapter<String> itemsAdapter;
     private ArrayList<Set> Sets = new ArrayList<Set>();;
-    private ArrayList<String> Names, questions, answers;
+    private ArrayList<String> Names;
     private GridView gvItems;
-    private int position, QApos;
+    private int position;
     Set newSet;
 
     @Override
@@ -33,19 +36,10 @@ public class MainMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //get info from prev activity
-        /*final Intent mainIntent = getIntent();
-        QApos = mainIntent.getIntExtra("position",0);
-        questions = mainIntent.getStringArrayListExtra("questions");
-        answers = mainIntent.getStringArrayListExtra("answers");*/
-
         //set up grid and insert new set
         gvItems = (GridView) findViewById(R.id.gvItems);
         Names = new ArrayList<String>();                        //Represents each item in gridView
         newSet = new Set();
-        /*newSet.setQuestions(questions);
-        newSet.setAnswers(answers);
-        Sets.add(QApos, newSet);*/
 
 
         //set up adapter for grid
@@ -58,7 +52,7 @@ public class MainMenu extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
                 final EditText edittext = new EditText(MainMenu.this);
                 alert.setMessage("Enter Name of New Set");
@@ -69,9 +63,11 @@ public class MainMenu extends AppCompatActivity {
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String itemText = edittext.getText().toString();
-                        itemsAdapter.add(itemText);
+                        fileCreate(itemText);
                         newSet.setName(itemText);
                         Sets.add(newSet);
+                        Snackbar.make(v, "New set: "+ itemText +" has been created!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }
                 });
 
@@ -85,6 +81,17 @@ public class MainMenu extends AppCompatActivity {
             }
 
         });
+
+        //create a floating action button to help the user
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Click on the name of the set to edit. Hold down to delete.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
         loadInternalStorage();
     }
 
@@ -101,7 +108,6 @@ public class MainMenu extends AppCompatActivity {
             {
                 String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
                 if(extension.equals("txt")) {
-                    Toast.makeText(getBaseContext(), file.getName(), Toast.LENGTH_SHORT).show();
                     fileName = file.getName();
                     pos = fileName.lastIndexOf(".");
                     if (pos > 0)
@@ -114,20 +120,20 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    /*Delete existing file from storage*/
-    public boolean deleteFile(String name){
+    /*Locates file and delete existing file from storage if remove is set to true. */
+    public boolean checkFileExists(String setName, boolean remove){
         File dir = getFilesDir();
         File[] subFiles = dir.listFiles();
         String fileName;
-        int pos;
 
         if (subFiles != null)
         {
             for (File file : subFiles)
             {
                 fileName = file.getName();
-                if (fileName.equals(name+".txt")) {
-                    file.delete();
+                if (fileName.equals(setName+".txt")) {
+                    if(remove)
+                        file.delete();
                     return true;
                 }
             }
@@ -135,6 +141,32 @@ public class MainMenu extends AppCompatActivity {
         return false;
     }
 
+    /*Creates file containing set data unless name already exists*/
+    public void fileCreate(String setName){
+        try {
+            boolean exists = checkFileExists(setName, false);
+            if(!exists) {
+                itemsAdapter.add(setName);
+                FileOutputStream fOut = openFileOutput(setName + ".txt", 0);
+                fOut.close();
+            }
+            else {
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
+                alert.setMessage("Set name already exists!");
+                alert.setTitle("Error Message");
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+                alert.show();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Attaches a long click listener and click listener to the gridview
     private void setupListViewListener() {
         gvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
@@ -149,11 +181,12 @@ public class MainMenu extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 // continue with delete
-                                deleteFile(Names.get(position));
+                                checkFileExists(Names.get(position),true);
                                 Names.remove(getPos());
                                 Sets.remove(getPos());
                                 // Refresh the adapter
                                 itemsAdapter.notifyDataSetChanged();
+                                Toast.makeText(getBaseContext(),"Set succesfully deleted!",Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -163,7 +196,6 @@ public class MainMenu extends AppCompatActivity {
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
-                //writeItems();
                 // Return true consumes the long click event (marks it handled)
                 return true;
             }
@@ -175,8 +207,6 @@ public class MainMenu extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 intent[0] = new Intent(MainMenu.this, MainActivity.class);
                 intent[0].putExtra("name", Names.get(position));
-                /*intent[0].putExtra("set", Sets.get(position));
-                intent[0].putExtra("pos", position);*/
                 //intent[0].setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent[0]);
             }
