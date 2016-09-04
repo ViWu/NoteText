@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_view_all_sets"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="View all Sets" />
+        <item
+            android:id="@+id/nav_shuffle_review"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Shuffle and Review" />
+        <item
+            android:id="@+id/nav_review"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Review" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Settings" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_save"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Save" />
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+        </menu>
+    </item>
+
+</menu>

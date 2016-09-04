@@ -63,11 +63,9 @@ public class MainMenu extends AppCompatActivity {
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String itemText = edittext.getText().toString();
-                        fileCreate(itemText);
+                        fileCreate(itemText, v);
                         newSet.setName(itemText);
                         Sets.add(newSet);
-                        Snackbar.make(v, "New set: "+ itemText +" has been created!", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
                     }
                 });
 
@@ -142,13 +140,15 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /*Creates file containing set data unless name already exists*/
-    public void fileCreate(String setName){
+    public void fileCreate(String setName, View v){
         try {
             boolean exists = checkFileExists(setName, false);
             if(!exists) {
-                itemsAdapter.add(setName);
                 FileOutputStream fOut = openFileOutput(setName + ".txt", 0);
                 fOut.close();
+                itemsAdapter.add(setName);
+                Snackbar.make(v, "New set: "+ setName +" has been created!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
             else {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);

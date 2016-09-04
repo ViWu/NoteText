@@ -3,6 +3,11 @@ package myapplication.flashcards;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +27,7 @@ import java.util.ArrayList;
 
 import static android.widget.AdapterView.OnItemLongClickListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static ArrayList<String> questions;
     private static ArrayList<String> answers;
@@ -69,8 +74,29 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        //set up drawer
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+
         fileRead();
     }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -78,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -103,12 +130,49 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("questions", questions);
             intent.putExtra("answers", answers);
             intent.putExtra("position", extraPosition);
-           // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             fileWrite();
             startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_view_all_sets) {
+            Intent intent = new Intent(MainActivity.this, MainMenu.class);
+            intent.putExtra("questions", questions);
+            intent.putExtra("answers", answers);
+            intent.putExtra("position", extraPosition);
+            // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            fileWrite();
+            startActivity(intent);
+
+        } else if (id == R.id.nav_shuffle_review) {
+            shuffle("true");
+
+        } else if (id == R.id.nav_review) {
+            shuffle("false");
+
+        } else if (id == R.id.nav_settings) {
+            Toast.makeText(getBaseContext(),"Settings!",Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.nav_save) {
+            fileWrite();
+            Toast.makeText(getBaseContext(),"Set saved!",Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id.nav_share) {
+            Toast.makeText(getBaseContext(),"Share!!",Toast.LENGTH_SHORT).show();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 
@@ -159,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     /*
     Writes data to internal storage.
     */
@@ -209,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //if randomize is true, then shuffle. Else use default order
+    //if randomize is true, then shuffle when switching to new activity. Else use default order
     private void shuffle(String randomize){
         if (getSize() <= 0)
             Toast.makeText(getApplicationContext(), "No cards to review", Toast.LENGTH_LONG).show();
@@ -219,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
 
     protected static void refreshAdapter(){
         itemsAdapter.notifyDataSetChanged();
