@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -35,8 +37,10 @@ public class ReviewCards extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                Animation fade= AnimationUtils.loadAnimation(ReviewCards.this, R.anim.fade_in);
                 TextView answerField = (TextView) findViewById(R.id.answer);
                 answerField.setTextColor(Color.parseColor("#32CD32"));
+                answerField.startAnimation(fade);
                 answerField.setText("Answer: " + MainActivity.getAnswers(shuffledDeck.get(index)));
             }
 
@@ -101,7 +105,13 @@ public class ReviewCards extends AppCompatActivity {
     }
 
     public void InitializeFields(int index){
+        Animation slide = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.activity_open_translate);
+        Animation fade = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.fade_in);
         TextView questionField = (TextView)findViewById(R.id.question);
+        if(index == 0)
+            questionField.startAnimation(fade);
+        else
+            questionField.startAnimation(slide);
         questionField.setText(MainActivity.getQuestions(shuffledDeck.get(index)));
         TextView answerField = (TextView)findViewById(R.id.answer);
         answerField.setText("");

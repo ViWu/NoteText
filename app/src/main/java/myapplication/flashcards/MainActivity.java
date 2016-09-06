@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,12 +33,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static ArrayList<String> questions;
     private static ArrayList<String> answers;
-    private ArrayList<Set> Sets;
     private static ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
-    private int extraPosition;
     private int position;
     private String setName;
+    //private int extraPosition;
+    //private ArrayList<Set> Sets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(MainActivity.this, MainMenu.class);
             intent.putExtra("questions", questions);
             intent.putExtra("answers", answers);
-            intent.putExtra("position", extraPosition);
             // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             fileWrite();
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -148,10 +150,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(MainActivity.this, MainMenu.class);
             intent.putExtra("questions", questions);
             intent.putExtra("answers", answers);
-            intent.putExtra("position", extraPosition);
             // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             fileWrite();
             startActivity(intent);
+            overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
 
         } else if (id == R.id.nav_shuffle_review) {
             shuffle("true");

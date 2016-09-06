@@ -6,6 +6,13 @@ Here are some features that need to be implemented:
 *Search feature for the toolbar to search through the cards
 *Upload photo feature to put onto the cards
 *Notification feature that reminds us to study at the time set by the user
+*Transition animations when switching activities
+
+Bugs that need to be fixed
+-edit text boxes: texts cant be all on one line. Need to have 3 lines max at a time.
+ each line needs to fit within the box. Should be able to scroll up/down if more than
+ three lines so that it shows 3 at a time.
+-edit text: can't delete what's already there when trying to edit a card. Can only add on.
 
 -https://guides.codepath.com/android/Basic-Todo-App-Tutorial
 -http://www.codeproject.com/Tips/845894/How-to-make-EditText-With-Border-and-Gradient-Back

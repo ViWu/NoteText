@@ -209,6 +209,7 @@ public class MainMenu extends AppCompatActivity {
                 intent[0].putExtra("name", Names.get(position));
                 //intent[0].setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent[0]);
+                overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
             }
         });
 
