@@ -85,7 +85,7 @@ public class MainMenu extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Click on the name of the set to edit. Hold down to delete.", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Click on the name of the set to edit. Hold down to delete/rename.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -166,35 +166,51 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
+
+    public void fileRename(String setName, String newName){
+        File dir = getFilesDir();
+        File[] subFiles = dir.listFiles();
+        String fileName;
+
+        if (subFiles != null)
+        {
+            for (File file : subFiles)
+            {
+                fileName = file.getName();
+                if (fileName.equals(setName+".txt")) {
+                    File tempFile = new File(dir +"/"+ newName+".txt");
+                    boolean check = file.renameTo(tempFile);
+                    if (check)
+                        Toast.makeText(getBaseContext(),"Renamed to " + newName + "!",Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getBaseContext(),"Rename failed!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+
     // Attaches a long click listener and click listener to the gridview
     private void setupListViewListener() {
         gvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
-                // Remove the item within array at position
+                // Remove the item within array at position or rename the item
                 position = pos;
-                new AlertDialog.Builder(MainMenu.this)
-                        .setTitle("Delete entry")
-                        .setMessage("Are you sure you want to delete this entry?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                String arr[] = {"Delete", "Rename"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
+                builder.setTitle("Select an Action")
+                        .setItems(arr, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
-                                // continue with delete
-                                checkFileExists(Names.get(position),true);
-                                Names.remove(getPos());
-                                Sets.remove(getPos());
-                                // Refresh the adapter
-                                itemsAdapter.notifyDataSetChanged();
-                                Toast.makeText(getBaseContext(),"Set succesfully deleted!",Toast.LENGTH_SHORT).show();
+                                if (which == 0){
+                                    deleteDialog();
+                                }
+                                else if (which == 1) {
+                                    renameDialog();
+                                }
                             }
                         })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                                                               }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 // Return true consumes the long click event (marks it handled)
                 return true;
@@ -212,8 +228,64 @@ public class MainMenu extends AppCompatActivity {
                 overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
             }
         });
-
     }
+
+    private void deleteDialog(){
+
+        new AlertDialog.Builder(MainMenu.this)
+                .setTitle("Delete entry")
+                .setMessage("Are you sure you want to delete this entry?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        // continue with delete
+                        checkFileExists(Names.get(position),true);
+                        Names.remove(getPos());
+                        Sets.remove(getPos());
+                        // Refresh the adapter
+                        itemsAdapter.notifyDataSetChanged();
+                        Toast.makeText(getBaseContext(),"Set succesfully deleted!",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void renameDialog(){
+
+        final EditText edittext = new EditText(MainMenu.this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
+        alert.setMessage("Enter New Name of the Set");
+        alert.setTitle("Rename Set");
+
+        alert.setView(edittext);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                String newName = edittext.getText().toString();
+                fileRename(Names.get(position), newName);
+                Names.remove(getPos());
+                itemsAdapter.add(newName);
+                itemsAdapter.notifyDataSetChanged();
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Do nothing
+            }
+        });
+
+        alert.show();
+    }
+
+
 
     protected int getPos() {
         return position;

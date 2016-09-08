@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.Random;
+
 public class mBroadcastReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
@@ -13,7 +15,10 @@ public class mBroadcastReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notification = intent.getParcelableExtra("notification");
-        int uid = 1;
+
+        Random random = new Random();
+        int uid = random.nextInt(1000);
+
         notificationManager.notify(uid, notification);
 
     }
