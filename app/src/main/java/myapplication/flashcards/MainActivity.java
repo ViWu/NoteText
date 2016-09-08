@@ -1,8 +1,18 @@
 package myapplication.flashcards;
 
+import android.app.AlarmManager;
+import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -10,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,11 +32,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static android.widget.AdapterView.OnItemLongClickListener;
 
@@ -37,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ListView lvItems;
     private int position;
     private String setName;
+    private static final int DIALOG_ID = 0;
+    private int setHour, setMinute;
     //private int extraPosition;
     //private ArrayList<Set> Sets;
 
@@ -71,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 itemsAdapter.add(itemText);
                 answers.add("");
                 textField.setText("");
-                // writeItems();
+                //pushNotification("5 second delay", 5000);
+                //pushNotification();
             }
 
         });
@@ -117,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, Settings.class);
+            startActivity(intent);
             return true;
         }
         if (id == R.id.action_shufflereview) {
@@ -161,8 +179,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_review) {
             shuffle("false");
 
+        } else if (id == R.id.nav_notification) {
+            setNotification();
+
         } else if (id == R.id.nav_settings) {
             Toast.makeText(getBaseContext(),"Settings!",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, Settings.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_save) {
             fileWrite();
@@ -176,6 +199,74 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /*Allows the time picker to set when the notification takes place*/
+    public void setNotification(){
+        createTimer(DIALOG_ID).show();
+    }
+
+    protected Dialog createTimer(int id){
+        if(id == DIALOG_ID)
+            return new TimePickerDialog(MainActivity.this, timePickerListener, setHour, setMinute, false);
+        return null;
+    }
+
+    /*Timepicker dialog that allows user to set the time for notification*/
+    protected TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener(){
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfDay){
+
+            Calendar calendar = Calendar.getInstance();
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+
+            setHour = hourOfDay;
+            setMinute = minuteOfDay;
+
+            hour = setHour - hour;
+            minute = setMinute - minute;
+
+            if(hour < 0 || (hour == 0 && minute < 0)) {
+                hour += 24;
+            }
+
+            String msg = "Time to review " + setName +"!";
+            int delay = hour * 60 * 60 * 1000 + minute * 60 * 1000;
+
+            Toast.makeText(MainActivity.this,
+                    "difference in time: "+ hour + " hours, " + minute + " minutes", Toast.LENGTH_SHORT).show();
+
+            pushNotification(msg, delay);
+        }
+    };
+
+
+    /*Pushes the notification when the set time has elapsed. */
+
+    private void pushNotification(String content, int delay) {
+
+        long totalDelay = SystemClock.elapsedRealtime() + delay;
+
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Notification.Builder notification = new Notification.Builder(this)
+                .setContentTitle("Scheduled Notification")
+                .setContentText(content)
+                .setSound(soundUri)
+                .setSmallIcon(R.drawable.ic_notifications_black_24dp);
+
+
+        Intent notificationIntent = new Intent(MainActivity.this, mBroadcastReceiver.class);
+        //notificationIntent.putExtra(mBroadcastReceiver.getNotificationID(), 1);
+        notificationIntent.putExtra(mBroadcastReceiver.getNotification(), notification.build());
+        PendingIntent pendingIntent = PendingIntent
+                .getBroadcast(MainActivity.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, totalDelay, pendingIntent);
+
+    }
+
 
 
     // Attaches a long click listener and click listener to the listview
