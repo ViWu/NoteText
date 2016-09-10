@@ -35,8 +35,13 @@ import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -169,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("questions", questions);
             intent.putExtra("answers", answers);
             // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
             fileWrite();
             startActivity(intent);
             overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
@@ -318,21 +324,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /*
     Writes data to internal storage.
     */
-    private void fileWrite(){
-        try {
-            FileOutputStream fOut = openFileOutput(setName+".txt",0);
-            String data = "";
-            for(int i=0; i <questions.size();i++){
-                data = questions.get(i) + "\r\n";
-                fOut.write(data.getBytes());
-                data = answers.get(i)  + "\r\n";
-                fOut.write(data.getBytes());
-            }
-            fOut.close();
-            Toast.makeText(getBaseContext(),"Set saved!",Toast.LENGTH_SHORT).show();
-        }
 
-        catch (Exception e) {
+    private void fileWrite() {
+
+        File file = new File(getFilesDir() +"/"+ setName+".txt");
+        try {
+            FileWriter  fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for(int i=0; i <questions.size();i++) {
+                bw.write(questions.get(i) + "\n");
+                bw.write(answers.get(i) + "\n");
+            }
+            bw.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -346,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             while( (c = fin.read()) != -1){
                 data = data + Character.toString((char)c);
-                if(data.contains("\r\n")){
+                if(data.contains("\n")){
                     data = data.substring(0, data.length()-1);
                     if((row & 1) == 0)
                          itemsAdapter.add(data);

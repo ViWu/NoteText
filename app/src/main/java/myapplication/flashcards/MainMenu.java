@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class MainMenu extends AppCompatActivity {
 
-    private ArrayAdapter<String> itemsAdapter;
+    private static ArrayAdapter<String> itemsAdapter;
     private ArrayList<Set> Sets = new ArrayList<Set>();;
     private ArrayList<String> Names;
     private GridView gvItems;
@@ -66,6 +66,7 @@ public class MainMenu extends AppCompatActivity {
                         fileCreate(itemText, v);
                         newSet.setName(itemText);
                         Sets.add(newSet);
+
                     }
                 });
 
@@ -93,7 +94,9 @@ public class MainMenu extends AppCompatActivity {
         loadInternalStorage();
     }
 
-    /*Load all files from internal storage that end in ".txt" */
+    /*Load all files from internal storage that end in ".txt"
+    * and whose name is not 0 characters without the extension*/
+
     private void loadInternalStorage(){
         File dir = getFilesDir();
         File[] subFiles = dir.listFiles();
@@ -105,7 +108,7 @@ public class MainMenu extends AppCompatActivity {
             for (File file : subFiles)
             {
                 String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-                if(extension.equals("txt")) {
+                if(extension.equals("txt") && file.getName().length() > 4) {
                     fileName = file.getName();
                     pos = fileName.lastIndexOf(".");
                     if (pos > 0)
@@ -119,7 +122,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /*Locates file and delete existing file from storage if remove is set to true. */
-    public boolean checkFileExists(String setName, boolean remove){
+    public boolean checkFileExists(String setName,  boolean remove){
         File dir = getFilesDir();
         File[] subFiles = dir.listFiles();
         String fileName;
@@ -152,18 +155,20 @@ public class MainMenu extends AppCompatActivity {
             }
             else {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
-                alert.setMessage("Set name already exists!");
+                alert.setMessage("Set name already exists or invalid name!");
                 alert.setTitle("Error Message");
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 });
                 alert.show();
+
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -239,7 +244,7 @@ public class MainMenu extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         // continue with delete
-                        checkFileExists(Names.get(position),true);
+                        checkFileExists(Names.get(position), true);
                         Names.remove(getPos());
                         Sets.remove(getPos());
                         // Refresh the adapter
