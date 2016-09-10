@@ -11,7 +11,8 @@
         <activity
             android:name=".EditCard"
             android:label="@string/title_activity_edit_card"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
             android:name=".ReviewCards"
             android:label="@string/title_activity_review_cards"

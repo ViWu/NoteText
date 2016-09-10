@@ -46,7 +46,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="83dp"
-        android:background="@layout/button"/>
+        android:background="@layout/button"
+        android:isScrollContainer="false"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -57,7 +58,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="@layout/button"
-        />
+        android:isScrollContainer="false" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -74,7 +75,8 @@
         android:layout_toRightOf="@+id/question"
         android:layout_toEndOf="@+id/question"
         android:inputType="textMultiLine"
-        android:scrollHorizontally="false"/>
+        android:scrollHorizontally="false"
+        android:scrollbars="vertical" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -92,5 +94,6 @@
         android:layout_toEndOf="@+id/ok"
         android:inputType="textMultiLine"
         android:scrollHorizontally="false"
-        />
+        android:scrollbars="vertical" />
+
 </RelativeLayout>
