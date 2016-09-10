@@ -49,8 +49,8 @@ import static android.widget.AdapterView.OnItemLongClickListener;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static ArrayList<String> questions;
-    private static ArrayList<String> answers;
+    protected static ArrayList<String> questions;
+    protected static ArrayList<String> answers;
     private static ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
     private int position;

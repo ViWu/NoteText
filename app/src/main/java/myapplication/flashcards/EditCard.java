@@ -9,7 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class EditCard extends AppCompatActivity {
 
@@ -77,21 +81,18 @@ public class EditCard extends AppCompatActivity {
     }
 
 
-    private void fileWrite(){
-        try {
-            FileOutputStream fOut = openFileOutput(setName+".txt",0);
-            String data = "";
-            for(int i=0; i <MainActivity.getSize();i++){
-                data = MainActivity.getQuestions(i) + "\r\n";
-                fOut.write(data.getBytes());
-                data = MainActivity.getAnswers(i)  + "\r\n";
-                fOut.write(data.getBytes());
-            }
-            fOut.close();
-            Toast.makeText(getBaseContext(),"Changes saved!",Toast.LENGTH_SHORT).show();
-        }
+    private void fileWrite() {
 
-        catch (Exception e) {
+        File file = new File(getFilesDir() +"/"+ setName+".txt");
+        try {
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for(int i=0; i <MainActivity.questions.size();i++) {
+                bw.write(MainActivity.questions.get(i) + "\n");
+                bw.write(MainActivity.answers.get(i) + "\n");
+            }
+            bw.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
