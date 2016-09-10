@@ -67,13 +67,14 @@
         android:gravity="top|left"
         android:padding="10dp"
         android:hint="Type to edit question"
-        android:inputType="text"
         android:background="@layout/edittextbox"
         android:layout_alignTop="@+id/question"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/question"
-        android:layout_toEndOf="@+id/question" />
+        android:layout_toEndOf="@+id/question"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -83,11 +84,13 @@
         android:gravity="top|left"
         android:padding="10dp"
         android:hint="Type to edit answer"
-        android:inputType="text"
         android:background="@layout/edittextbox"
         android:layout_alignTop="@+id/answer"
         android:layout_alignRight="@+id/questionField"
         android:layout_alignEnd="@+id/questionField"
         android:layout_toRightOf="@+id/ok"
-        android:layout_toEndOf="@+id/ok" />
+        android:layout_toEndOf="@+id/ok"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        />
 </RelativeLayout>

@@ -32,7 +32,9 @@
         android:layout_alignTop="@+id/btnAddItem"
         android:layout_alignLeft="@+id/lvItems"
         android:layout_alignStart="@+id/lvItems"
-        android:hint="Type to add question..."/>
+        android:hint="Type to add question..."
+        android:singleLine="true"
+        android:scrollHorizontally="true"/>
 
     <Button
         android:layout_width="wrap_content"

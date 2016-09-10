@@ -83,8 +83,9 @@ public class EditCard extends AppCompatActivity {
 
     private void fileWrite() {
 
-        File file = new File(getFilesDir() +"/"+ setName+".txt");
         try {
+            File dir = getFilesDir();
+            File file = new File(dir +"/"+ setName+".txt");
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
             for(int i=0; i <MainActivity.questions.size();i++) {

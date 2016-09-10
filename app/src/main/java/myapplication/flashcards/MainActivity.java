@@ -327,8 +327,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void fileWrite() {
 
-        File file = new File(getFilesDir() +"/"+ setName+".txt");
         try {
+            File dir = getFilesDir();
+            File file = new File(dir + "/" + setName + ".txt");
             FileWriter  fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
             for(int i=0; i <questions.size();i++) {
