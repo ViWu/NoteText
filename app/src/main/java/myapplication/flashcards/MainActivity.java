@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         answers = new ArrayList<String>();
 
         //set up adapter and listeners
-        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, questions);
+        itemsAdapter = new ArrayAdapter<String>(this, R.layout.lv_item, questions);
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
 
@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 itemsAdapter.add(itemText);
                 answers.add("");
                 textField.setText("");
-                //pushNotification("5 second delay", 5000);
-                //pushNotification();
+                lvItems.setSelection(itemsAdapter.getCount() - 1);
+
             }
 
         });
@@ -277,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // Attaches a long click listener and click listener to the listview
     private void setupListViewListener() {
+
         lvItems.setOnItemLongClickListener(new OnItemLongClickListener() {
         @Override
 

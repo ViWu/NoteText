@@ -20,7 +20,8 @@
         android:layout_above="@+id/textField"
         android:layout_alignParentStart="false"
         android:layout_alignParentTop="true"
-        android:paddingTop="50dp"/>
+        android:paddingTop="50dp"
+        android:scrollbars="vertical"/>
 
     <EditText
         android:layout_width="280dp"

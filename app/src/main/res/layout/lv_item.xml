@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/itemText"
+    android:drawableLeft="@android:drawable/star_on"
+    android:drawablePadding="8dp"
+    android:padding="15dp" />

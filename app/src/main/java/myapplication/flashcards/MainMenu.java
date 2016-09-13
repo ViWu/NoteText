@@ -43,7 +43,7 @@ public class MainMenu extends AppCompatActivity {
 
 
         //set up adapter for grid
-        itemsAdapter = new ArrayAdapter<String>(MainMenu.this, android.R.layout.simple_list_item_1, Names);
+        itemsAdapter = new ArrayAdapter<String>(MainMenu.this, R.layout.grid_item, Names);
         gvItems.setAdapter(itemsAdapter);
         setupListViewListener();
 
@@ -66,7 +66,7 @@ public class MainMenu extends AppCompatActivity {
                         fileCreate(itemText, v);
                         newSet.setName(itemText);
                         Sets.add(newSet);
-
+                        gvItems.setSelection(itemsAdapter.getCount()-1);
                     }
                 });
 
