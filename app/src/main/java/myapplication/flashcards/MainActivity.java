@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         final Intent editIntent = getIntent();
         setName = editIntent.getStringExtra("name");
+        getSupportActionBar().setTitle(setName);
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         questions = new ArrayList<String>();

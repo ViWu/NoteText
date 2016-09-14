@@ -37,9 +37,10 @@
         android:background="@layout/textbox"
         android:layout_above="@+id/buttonAdd"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:fadeScrollbars="false"
+        android:scrollbarStyle="insideOverlay">
     </GridView>
-
 
 
 </RelativeLayout>

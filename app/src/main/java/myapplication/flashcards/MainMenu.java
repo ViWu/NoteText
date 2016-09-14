@@ -66,7 +66,7 @@ public class MainMenu extends AppCompatActivity {
                         fileCreate(itemText, v);
                         newSet.setName(itemText);
                         Sets.add(newSet);
-                        gvItems.setSelection(itemsAdapter.getCount()-1);
+                        gvItems.smoothScrollToPosition(itemsAdapter.getCount()-1);
                     }
                 });
 
