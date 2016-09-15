@@ -184,11 +184,17 @@ public class MainMenu extends AppCompatActivity {
                 fileName = file.getName();
                 if (fileName.equals(setName+".txt")) {
                     File tempFile = new File(dir +"/"+ newName+".txt");
-                    boolean check = file.renameTo(tempFile);
-                    if (check)
-                        Toast.makeText(getBaseContext(),"Renamed to " + newName + "!",Toast.LENGTH_SHORT).show();
+                    boolean exists = checkFileExists(newName, false);
+                    if (!exists) {
+                        file.renameTo(tempFile);
+                        Names.remove(getPos());
+                        itemsAdapter.add(newName);
+                        itemsAdapter.notifyDataSetChanged();
+                        Toast.makeText(getBaseContext(), "Renamed to " + newName + "!", Toast.LENGTH_SHORT).show();
+                    }
                     else
-                        Toast.makeText(getBaseContext(),"Rename failed!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(),"Rename failed! " +
+                                "Set already exists!",Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -275,9 +281,7 @@ public class MainMenu extends AppCompatActivity {
 
                 String newName = edittext.getText().toString();
                 fileRename(Names.get(position), newName);
-                Names.remove(getPos());
-                itemsAdapter.add(newName);
-                itemsAdapter.notifyDataSetChanged();
+
             }
         });
 
