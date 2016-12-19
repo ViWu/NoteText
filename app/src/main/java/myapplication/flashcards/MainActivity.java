@@ -122,47 +122,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(MainActivity.this, Settings.class);
-            startActivity(intent);
-            return true;
-        }
-        if (id == R.id.action_shufflereview) {
-            shuffle("true");
-            return true;
-        }
-        if (id == R.id.action_review) {
-            shuffle("false");
-            return true;
-        }
-        if (id == R.id.action_sets) {
-            Intent intent = new Intent(MainActivity.this, MainMenu.class);
-            intent.putExtra("questions", questions);
-            intent.putExtra("answers", answers);
-            // intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            fileWrite();
-            startActivity(intent);
-            overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
