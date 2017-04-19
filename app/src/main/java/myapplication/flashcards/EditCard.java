@@ -36,7 +36,7 @@ public class EditCard extends AppCompatActivity {
         String str = editIntent.getStringExtra("questions");
         questionSet.setText(str);
 
-        //initialize cursor position
+        //initialize cursor position to end of string
         int cursorPos = str.length();
         questionSet.setSelection(cursorPos);
 

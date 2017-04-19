@@ -108,10 +108,9 @@ public class ReviewCards extends AppCompatActivity {
         Animation slide = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.activity_open_translate);
         Animation fade = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.fade_in);
         TextView questionField = (TextView)findViewById(R.id.question);
-        if(index == 0)
-            questionField.startAnimation(fade);
-        else
-            questionField.startAnimation(slide);
+
+        questionField.startAnimation(fade);
+
         questionField.setText(MainActivity.getQuestions(shuffledDeck.get(index)));
         TextView answerField = (TextView)findViewById(R.id.answer);
         answerField.setText("");
