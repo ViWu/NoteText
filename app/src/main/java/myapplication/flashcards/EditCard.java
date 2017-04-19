@@ -36,6 +36,10 @@ public class EditCard extends AppCompatActivity {
         String str = editIntent.getStringExtra("questions");
         questionSet.setText(str);
 
+        //initialize cursor position
+        int cursorPos = str.length();
+        questionSet.setSelection(cursorPos);
+
         EditText answerSet = (EditText) findViewById(R.id.answerField);
         str = editIntent.getStringExtra("answers");
         answerSet.setText(str);
