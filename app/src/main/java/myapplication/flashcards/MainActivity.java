@@ -3,10 +3,8 @@ package myapplication.flashcards;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -14,19 +12,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,10 +31,8 @@ import android.widget.Toast;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -148,18 +139,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_notification) {
             setNotification();
 
-        } else if (id == R.id.nav_settings) {
+        } /*else if (id == R.id.nav_settings) {
             Toast.makeText(getBaseContext(),"Settings!",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, Settings.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_save) {
+        }*/ else if (id == R.id.nav_save) {
             fileWrite();
             Toast.makeText(getBaseContext(),"Set saved!",Toast.LENGTH_SHORT).show();
         }
-        else if (id == R.id.nav_share) {
+       /* else if (id == R.id.nav_share) {
             Toast.makeText(getBaseContext(),"Share!!",Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
