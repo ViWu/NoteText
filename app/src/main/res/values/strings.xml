@@ -3,8 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_go_through_cards">GoThroughCards</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_edit_card">EditCard</string>
-    <string name="title_activity_review_cards">ReviewCards</string>
+    <string name="title_activity_edit_card">Edit Card</string>
+    <string name="title_activity_review_cards">Review Cards</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_main_menu">Note Text</string>
     <string name="title_activity_test">test</string>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,11 +37,13 @@ public class MainMenu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ActionBar actionbar = getSupportActionBar();
+        initializeToolbar(toolbar, actionbar);
+
         //set up grid and insert new set
         gvItems = (GridView) findViewById(R.id.gvItems);
         Names = new ArrayList<String>();                        //Represents each item in gridView
         newSet = new Set();
-
 
         //set up adapter for grid
         itemsAdapter = new ArrayAdapter<String>(MainMenu.this, R.layout.grid_item, Names);
@@ -198,6 +201,15 @@ public class MainMenu extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    //Adds app icon to toolbar and adjusts placement of title
+    public static void initializeToolbar(Toolbar toolbar, ActionBar actionbar){
+        actionbar.setDisplayShowHomeEnabled(true);
+        actionbar.setLogo(R.mipmap.ic_launcher);
+        actionbar.setDisplayUseLogoEnabled(true);
+        String title = "   " + toolbar.getTitle();
+        actionbar.setTitle(title);
     }
 
 

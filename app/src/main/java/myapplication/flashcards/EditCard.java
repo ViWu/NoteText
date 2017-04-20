@@ -2,6 +2,7 @@ package myapplication.flashcards;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -26,6 +27,9 @@ public class EditCard extends AppCompatActivity {
         setContentView(R.layout.activity_edit_card);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ActionBar actionbar = getSupportActionBar();
+        MainMenu.initializeToolbar(toolbar, actionbar);
 
         //get Intent from MainActivity
         final Intent editIntent = getIntent();

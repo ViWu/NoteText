@@ -14,6 +14,7 @@ import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -58,10 +59,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         final Intent editIntent = getIntent();
         setName = editIntent.getStringExtra("name");
         getSupportActionBar().setTitle(setName);
+
+        ActionBar actionbar = getSupportActionBar();
+        MainMenu.initializeToolbar(toolbar, actionbar);
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         questions = new ArrayList<String>();
