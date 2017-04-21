@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             fileWrite();
             startActivity(intent);
+            finish();
             overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
 
         } else if (id == R.id.nav_shuffle_review) {
