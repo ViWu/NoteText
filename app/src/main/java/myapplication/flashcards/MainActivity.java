@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setContentTitle("Scheduled Notification")
                 .setContentText(content)
                 .setSound(soundUri)
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp);
+                .setSmallIcon(R.mipmap.ic_launcher);
 
 
         Intent notificationIntent = new Intent(MainActivity.this, mBroadcastReceiver.class);
