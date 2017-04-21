@@ -50,12 +50,21 @@ public class MainMenu extends AppCompatActivity {
         gvItems.setAdapter(itemsAdapter);
         setupListViewListener();
 
-        //add button: Creates a popup window to type in name of new set
-        Button addButton = (Button) findViewById(R.id.buttonAdd);
-        addButton.setOnClickListener(new View.OnClickListener() {
-
+        //create a floating action button to help the user
+        FloatingActionButton help = (FloatingActionButton) findViewById(R.id.help);
+        help.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
+            public void onClick(View view) {
+                Snackbar.make(view, "Click on the name of the set to edit. Hold down to delete/rename.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        //add button: Creates a popup window to type in name of new set
+        FloatingActionButton add = (FloatingActionButton) findViewById(R.id.add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
                 final EditText edittext = new EditText(MainMenu.this);
                 alert.setMessage("Enter Name of New Set");
@@ -66,7 +75,7 @@ public class MainMenu extends AppCompatActivity {
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String itemText = edittext.getText().toString();
-                        fileCreate(itemText, v);
+                        fileCreate(itemText, view);
                         newSet.setName(itemText);
                         Sets.add(newSet);
                         gvItems.smoothScrollToPosition(itemsAdapter.getCount()-1);
@@ -80,17 +89,6 @@ public class MainMenu extends AppCompatActivity {
                 });
 
                 alert.show();
-            }
-
-        });
-
-        //create a floating action button to help the user
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Click on the name of the set to edit. Hold down to delete/rename.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
 
