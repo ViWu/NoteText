@@ -19,10 +19,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Question"
+        android:textStyle="italic"
         android:id="@+id/question"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="42dp"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ok"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -30,11 +29,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Answer"
+        android:textStyle="italic"
         android:id="@+id/answer"
-        android:layout_below="@+id/question"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="134dp" />
+        android:layout_below="@+id/questionField"
+        android:layout_alignParentStart="true" />
 
 
     <Button
@@ -42,12 +40,10 @@
         android:layout_height="wrap_content"
         android:text="Ok"
         android:id="@+id/ok"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="83dp"
         android:background="@layout/button"
-        android:isScrollContainer="false"/>
+        android:isScrollContainer="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/question" />
 
     <Button
         android:layout_width="wrap_content"
@@ -69,14 +65,12 @@
         android:padding="10dp"
         android:hint="Type to edit question"
         android:background="@layout/edittextbox"
-        android:layout_alignTop="@+id/question"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/question"
-        android:layout_toEndOf="@+id/question"
         android:inputType="textMultiLine"
         android:scrollHorizontally="false"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:layout_below="@+id/question"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -87,13 +81,11 @@
         android:padding="10dp"
         android:hint="Type to edit answer"
         android:background="@layout/edittextbox"
-        android:layout_alignTop="@+id/answer"
-        android:layout_alignRight="@+id/questionField"
-        android:layout_alignEnd="@+id/questionField"
-        android:layout_toRightOf="@+id/ok"
-        android:layout_toEndOf="@+id/ok"
         android:inputType="textMultiLine"
         android:scrollHorizontally="false"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:layout_below="@+id/answer"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/questionField" />
 
 </RelativeLayout>
