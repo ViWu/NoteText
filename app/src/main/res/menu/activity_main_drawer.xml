@@ -18,6 +18,10 @@
             android:id="@+id/nav_notification"
             android:icon="@drawable/ic_notifications_black_24dp"
             android:title="Set Notification" />
+        <item
+            android:id="@+id/nav_save"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="Save" />
         <!---   <item
                android:id="@+id/nav_settings"
                android:icon="@drawable/ic_menu_manage"
@@ -25,12 +29,9 @@
                -->
        </group>
 
-       <item android:title="Communicate">
+       <item android:title="">
            <menu>
-               <item
-                   android:id="@+id/nav_save"
-                   android:icon="@drawable/ic_menu_send"
-                   android:title="Save" />
+
                <!---     <item
                        android:id="@+id/nav_share"
                        android:icon="@drawable/ic_menu_share"

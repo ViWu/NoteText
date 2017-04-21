@@ -91,39 +91,6 @@ public class EditCard extends AppCompatActivity {
 
         });
 
-       /* FloatingActionButton cancel = (FloatingActionButton) findViewById(R.id.reject);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(EditCard.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        FloatingActionButton OK = (FloatingActionButton) findViewById(R.id.confirm);
-        OK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText questionBox = (EditText) findViewById(R.id.questionField);
-                EditText answerBox = (EditText) findViewById(R.id.answerField);
-                String answer = answerBox.getText().toString();
-                String question = questionBox.getText().toString();
-
-                int pos = editIntent.getIntExtra("position", 0);
-                MainActivity.setAnswers(pos, answer);
-                MainActivity.setQuestions(pos,question);
-
-                fileWrite();
-                MainActivity.refreshAdapter();
-
-                intent = new Intent(EditCard.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-                finish();
-            }
-        });*/
     }
 
 
