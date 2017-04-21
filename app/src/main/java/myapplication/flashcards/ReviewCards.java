@@ -109,7 +109,7 @@ public class ReviewCards extends AppCompatActivity {
     }
 
     public void InitializeFields(int index){
-        Animation slide = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.activity_open_translate);
+        //Animation slide = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.activity_open_translate);
         Animation fade = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.fade_in);
         TextView questionField = (TextView)findViewById(R.id.question);
 
