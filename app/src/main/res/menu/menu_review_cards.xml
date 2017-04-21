@@ -8,7 +8,7 @@
         app:showAsAction="never" />
         -->
     <item android:id="@+id/action_edit"
-        android:title="Edit Cards"
+        android:title="Edit Set"
         android:orderInCategory="100"
         app:showAsAction="never" />
 </menu>

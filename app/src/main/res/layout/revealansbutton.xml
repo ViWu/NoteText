@@ -6,10 +6,10 @@
     android:layout_height="80dp"
     android:layout_width="40dp">
     <corners android:radius="2dp" />
-    <stroke android:width="1dp"
-        android:color="#007F00"/>
+    <stroke android:width="3dp"
+    android:color="#A2A2A2"/>
     <gradient
-        android:startColor="#00B200"
-        android:endColor="#00FF00"
+        android:startColor="#67c42b"
+        android:endColor="#c5ffa0"
         />
 </shape>
