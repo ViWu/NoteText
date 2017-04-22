@@ -219,6 +219,7 @@ public class MainMenu extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
                 // Remove the item within array at position or rename the item
                 position = pos;
+                final String setName = Names.get(pos);
                 String arr[] = {"Delete", "Rename"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
                 builder.setTitle("Select an Action")
@@ -228,7 +229,7 @@ public class MainMenu extends AppCompatActivity {
                                     deleteDialog();
                                 }
                                 else if (which == 1) {
-                                    renameDialog();
+                                    renameDialog(setName);
                                 }
                             }
                         })
@@ -276,19 +277,24 @@ public class MainMenu extends AppCompatActivity {
                 .show();
     }
 
-    private void renameDialog(){
+    private void renameDialog(String setName){
 
-        final EditText edittext = new EditText(MainMenu.this);
+        final EditText textField = new EditText(MainMenu.this);
         AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
         alert.setMessage("Enter New Name of the Set");
         alert.setTitle("Rename Set");
 
-        alert.setView(edittext);
+        alert.setView(textField);
+
+        textField.setText(setName);
+        int cursorPos = setName.length();
+        textField.setSelection(cursorPos);
+        textField.setSelectAllOnFocus(true);
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
-                String newName = edittext.getText().toString();
+                String newName = textField.getText().toString();
                 fileRename(Names.get(position), newName);
 
             }
