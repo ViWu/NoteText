@@ -29,5 +29,30 @@
         android:scrollbarStyle="insideOverlay">
     </GridView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="You currently have no sets. Tap the round plus button on the bottom left to add."
+        android:textStyle="italic"
+        android:textColor="#ababab"
+        android:id="@+id/empty"
+        android:layout_alignTop="@+id/gvItems"
+        android:layout_marginTop="189dp"
+        android:layout_margin = "50dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icon"
+        android:layout_below="@+id/empty"
+        android:layout_centerHorizontal="true"
+        android:maxWidth="100dp"
+        android:maxHeight="100dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:alpha="0.7"
+        android:src="@drawable/empty" />
+
 
 </RelativeLayout>

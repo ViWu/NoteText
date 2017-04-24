@@ -3,6 +3,7 @@ package myapplication.flashcards;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,9 +15,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -30,6 +32,7 @@ public class MainMenu extends AppCompatActivity {
     private ArrayList<String> Names;
     private GridView gvItems;
     private int position;
+    private int setCount = 0;
     Set newSet;
 
     @Override
@@ -57,7 +60,7 @@ public class MainMenu extends AppCompatActivity {
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Click on the name of the set to edit. Hold down to delete/rename.", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Click on the name of the set to edit. Hold down to delete/rename. To add sets, tap the button to the left.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -81,6 +84,8 @@ public class MainMenu extends AppCompatActivity {
                         newSet.setName(itemText);
                         Sets.add(newSet);
                         gvItems.smoothScrollToPosition(itemsAdapter.getCount()-1);
+                        setCount++;
+                        checkNoSetExists();
                     }
                 });
 
@@ -95,6 +100,7 @@ public class MainMenu extends AppCompatActivity {
         });
 
         loadInternalStorage();
+        checkNoSetExists();
     }
 
     /*Load all files from internal storage that end in ".txt"
@@ -119,6 +125,7 @@ public class MainMenu extends AppCompatActivity {
                     itemsAdapter.add(fileName);
                     newSet.setName(fileName);
                     Sets.add(newSet);
+                    setCount++;
                 }
             }
         }
@@ -136,8 +143,11 @@ public class MainMenu extends AppCompatActivity {
             {
                 fileName = file.getName();
                 if (fileName.equals(setName+".txt")) {
-                    if(remove)
+                    if(remove) {
                         file.delete();
+                        setCount--;
+                        checkNoSetExists();
+                    }
                     return true;
                 }
             }
@@ -210,6 +220,20 @@ public class MainMenu extends AppCompatActivity {
         actionbar.setDisplayUseLogoEnabled(true);
         String title = "   " + toolbar.getTitle();
         actionbar.setTitle(title);
+    }
+
+    //Check if number of sets is zero. If true, show message
+    private void checkNoSetExists(){
+        TextView msg = (TextView) findViewById(R.id.empty);
+        ImageView icon = (ImageView) findViewById(R.id.icon);
+        if (setCount == 0) {
+            msg.setVisibility(View.VISIBLE);
+            icon.setVisibility(View.VISIBLE);
+        }
+        else {
+            msg.setVisibility(View.GONE);
+            icon.setVisibility(View.GONE);
+        }
     }
 
 
