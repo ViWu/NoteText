@@ -3,7 +3,7 @@
 Note Text is now available for download in the Amazon app store!
 
 <a href="https://www.amazon.com/dp/B071694TH1/ref=sr_1_1?s=mobile-apps&ie=UTF8&qid=1493070568&sr=1-1">
-<img src="https://github.com/ViWu/NoteText/blob/master/app/src/main/res/drawable/AmazonAppStore.png"  width="160">
+<img src="https://github.com/ViWu/NoteText/blob/master/app/src/main/res/drawable/amazon.png"  width="160">
 </a>
 <br>
 
