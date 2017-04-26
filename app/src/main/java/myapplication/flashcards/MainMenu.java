@@ -90,6 +90,7 @@ public class MainMenu extends AppCompatActivity {
                         gvItems.smoothScrollToPosition(itemsAdapter.getCount()-1);
                         setCount++;
                         checkNoSetExists();
+                        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.RESULT_UNCHANGED_SHOWN);
                     }
                 });
 
@@ -332,6 +333,7 @@ public class MainMenu extends AppCompatActivity {
 
                 String newName = textField.getText().toString();
                 fileRename(Names.get(position), newName);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.RESULT_UNCHANGED_SHOWN);
 
             }
         });
