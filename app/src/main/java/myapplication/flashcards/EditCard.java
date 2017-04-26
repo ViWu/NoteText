@@ -39,58 +39,69 @@ public class EditCard extends AppCompatActivity {
 
         //set edit text boxes if questions and answers are already saved
         EditText questionSet = (EditText) findViewById(R.id.questionField);
-        String str = editIntent.getStringExtra("questions");
-        questionSet.setText(str);
+        if (questionSet != null) {
+            String str = editIntent.getStringExtra("questions");
+            questionSet.setText(str);
 
-        //initialize cursor position to end of string
-        int cursorPos = str.length();
-        questionSet.setSelection(cursorPos);
+            //initialize cursor position to end of string
+            int cursorPos = str.length();
+            questionSet.setSelection(cursorPos);
+        }
+
+
 
         EditText answerSet = (EditText) findViewById(R.id.answerField);
-        str = editIntent.getStringExtra("answers");
-        answerSet.setText(str);
+        if (answerSet != null) {
+            String str = editIntent.getStringExtra("answers");
+            answerSet.setText(str);
+        }
 
 
         //if cancel button is clicked, go back to main activity
-        Button Cancel= (Button) findViewById(R.id.cancel);
-        Cancel.setOnClickListener(new View.OnClickListener() {
+        Button cancelButton = (Button) findViewById(R.id.cancel);
+        if (cancelButton != null) {
+            cancelButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                intent = new Intent(EditCard.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-                finish();
-            }
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent(EditCard.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    finish();
+                }
 
-        });
+            });
+        }
 
 
         //if ok button is clicked, save the questions and answers fields, then go back to main activity
-        Button OK= (Button) findViewById(R.id.ok);
-        OK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText questionBox = (EditText) findViewById(R.id.questionField);
-                EditText answerBox = (EditText) findViewById(R.id.answerField);
-                String answer = answerBox.getText().toString();
-                String question = questionBox.getText().toString();
+        Button OkButton = (Button) findViewById(R.id.ok);
+        if (OkButton != null) {
+            OkButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EditText questionBox = (EditText) findViewById(R.id.questionField);
+                    EditText answerBox = (EditText) findViewById(R.id.answerField);
+                    assert questionBox != null;
+                    assert answerBox != null;
+                    String answer = answerBox.getText().toString();
+                    String question = questionBox.getText().toString();
 
-                int pos = editIntent.getIntExtra("position", 0);
-                MainActivity.setAnswers(pos, answer);
-                MainActivity.setQuestions(pos,question);
+                    int pos = editIntent.getIntExtra("position", 0);
+                    MainActivity.setAnswers(pos, answer);
+                    MainActivity.setQuestions(pos, question);
 
-                fileWrite();
-                MainActivity.refreshAdapter();
+                    fileWrite();
+                    MainActivity.refreshAdapter();
 
-                intent = new Intent(EditCard.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-                finish();
-            }
+                    intent = new Intent(EditCard.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    finish();
+                }
 
-        });
-
+            });
+        }
     }
 
 

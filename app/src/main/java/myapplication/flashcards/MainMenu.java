@@ -57,6 +57,7 @@ public class MainMenu extends AppCompatActivity {
 
         //create a floating action button to help the user
         FloatingActionButton help = (FloatingActionButton) findViewById(R.id.help);
+        assert help != null;
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +68,7 @@ public class MainMenu extends AppCompatActivity {
 
         //add button: Creates a popup window to type in name of new set
         FloatingActionButton add = (FloatingActionButton) findViewById(R.id.add);
+        assert add != null;
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -233,6 +235,8 @@ public class MainMenu extends AppCompatActivity {
     private void checkNoSetExists(){
         TextView msg = (TextView) findViewById(R.id.empty);
         ImageView icon = (ImageView) findViewById(R.id.icon);
+        assert msg != null;
+        assert icon != null;
         if (setCount == 0) {
             msg.setVisibility(View.VISIBLE);
             icon.setVisibility(View.VISIBLE);

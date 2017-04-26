@@ -77,29 +77,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //add questions to listView by typing and clicking the add button
         Button addButton = (Button) findViewById(R.id.btnAddItem);
-        addButton.setOnClickListener(new View.OnClickListener() {
+        if (addButton != null) {
+            addButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                EditText textField = (EditText) findViewById(R.id.textField);
-                String itemText = textField.getText().toString();
-                itemsAdapter.add(itemText);
-                answers.add("");
-                textField.setText("");
-                lvItems.setSelection(itemsAdapter.getCount() - 1);
+                @Override
+                public void onClick(View v) {
+                    EditText textField = (EditText) findViewById(R.id.textField);
+                    String itemText = textField.getText().toString();
+                    itemsAdapter.add(itemText);
+                    answers.add("");
+                    textField.setText("");
+                    lvItems.setSelection(itemsAdapter.getCount() - 1);
 
-            }
+                }
 
-        });
+            });
+        }
 
         //set up drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
+        if (drawer != null) {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
+        }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        assert navigationView != null;
         navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
 
         fileRead();
@@ -108,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        assert drawer != null;
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -157,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        assert drawer != null;
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -37,49 +37,53 @@ public class ReviewCards extends AppCompatActivity {
         MainMenu.initializeToolbar(toolbar, actionbar);
 
         Button addButton = (Button) findViewById(R.id.revealAnswer);
-        addButton.setOnClickListener(new View.OnClickListener() {
+        if (addButton != null) {
+            addButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Animation fade= AnimationUtils.loadAnimation(ReviewCards.this, R.anim.fade_in);
-                TextView answerField = (TextView) findViewById(R.id.answer);
-                answerField.setTextColor(Color.parseColor("#32CD32"));
-                answerField.startAnimation(fade);
-                answerField.setText("Answer: " + MainActivity.getAnswers(shuffledDeck.get(index)));
-            }
+                @Override
+                public void onClick(View v) {
+                    Animation fade = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.fade_in);
+                    TextView answerField = (TextView) findViewById(R.id.answer);
+                    assert answerField != null;
+                    answerField.setTextColor(Color.parseColor("#32CD32"));
+                    answerField.startAnimation(fade);
+                    answerField.setText("Answer: " + MainActivity.getAnswers(shuffledDeck.get(index)));
+                }
 
-        });
+            });
+        }
 
         Button nextButton = (Button) findViewById(R.id.next);
-        nextButton.setOnClickListener(new View.OnClickListener() {
+        if (nextButton != null) {
+            nextButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                if(index < MainActivity.getSize()-1) {
-                    index++;
-                    InitializeFields(index);
+                @Override
+                public void onClick(View v) {
+                    if (index < MainActivity.getSize() - 1) {
+                        index++;
+                        InitializeFields(index);
+                    } else
+                        Snackbar.make(v, "No more cards", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
-                else
-                    Snackbar.make(v, "No more cards", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
 
-        });
-
+            });
+        }
 
         Button prevButton = (Button) findViewById(R.id.prev);
-        prevButton.setOnClickListener(new View.OnClickListener() {
+        if (prevButton != null) {
+            prevButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                if(index > 0) {
-                    index--;
-                    InitializeFields(index);
+                @Override
+                public void onClick(View v) {
+                    if (index > 0) {
+                        index--;
+                        InitializeFields(index);
+                    } else
+                        Snackbar.make(v, "None have been shown before", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
-                else
-                    Snackbar.make(v, "None have been shown before", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
 
-        });
+            });
+        }
     }
 
     @Override
@@ -112,11 +116,13 @@ public class ReviewCards extends AppCompatActivity {
         //Animation slide = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.activity_open_translate);
         Animation fade = AnimationUtils.loadAnimation(ReviewCards.this, R.anim.fade_in);
         TextView questionField = (TextView)findViewById(R.id.question);
+        assert questionField != null;
 
         questionField.startAnimation(fade);
 
         questionField.setText(MainActivity.getQuestions(shuffledDeck.get(index)));
         TextView answerField = (TextView)findViewById(R.id.answer);
+        assert answerField != null;
         answerField.setText("");
     }
 
