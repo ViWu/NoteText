@@ -71,15 +71,19 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(final View view) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
-                final EditText edittext = new EditText(MainMenu.this);
+                final EditText setNameField = new EditText(MainMenu.this);
                 alert.setMessage("Enter Name of New Set");
                 alert.setTitle("Create New Set");
 
-                alert.setView(edittext);
+                alert.setView(setNameField);
+
+                setNameField.requestFocus();
+                final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        String itemText = edittext.getText().toString();
+                        String itemText = setNameField.getText().toString();
                         fileCreate(itemText, view);
                         newSet.setName(itemText);
                         Sets.add(newSet);
@@ -91,7 +95,9 @@ public class MainMenu extends AppCompatActivity {
 
                 alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        // Do nothing
+
+                        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.RESULT_UNCHANGED_SHOWN);
+
                     }
                 });
 
