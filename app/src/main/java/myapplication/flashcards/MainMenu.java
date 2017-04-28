@@ -3,7 +3,6 @@ package myapplication.flashcards;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -89,11 +88,18 @@ public class MainMenu extends AppCompatActivity {
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String itemText = setNameField.getText().toString();
-                        fileCreate(itemText, view);
-                        newSet.setName(itemText);
-                        Sets.add(newSet);
-                        gvItems.smoothScrollToPosition(itemsAdapter.getCount()-1);
-                        setCount++;
+                        if(itemText.length() > 0) {
+                            fileCreate(itemText, view);
+                            newSet.setName(itemText);
+                            Sets.add(newSet);
+                            gvItems.smoothScrollToPosition(itemsAdapter.getCount() - 1);
+                            setCount++;
+                        }
+                        else{
+                            String msg = "Create set failed! Set names need to be at least one character long!";
+                            errorDialog(msg);
+                        }
+
                         checkNoSetExists();
                         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.RESULT_UNCHANGED_SHOWN);
                     }
@@ -179,15 +185,8 @@ public class MainMenu extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
             else {
-                AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
-                alert.setMessage("Set name already exists or invalid name!");
-                alert.setTitle("Error Message");
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }
-                });
-                alert.show();
-
+                String msg = "Set name already exists or invalid name!";
+                errorDialog(msg);
             }
         }
         catch (Exception e) {
@@ -217,12 +216,25 @@ public class MainMenu extends AppCompatActivity {
                         itemsAdapter.notifyDataSetChanged();
                         Toast.makeText(getBaseContext(), "Renamed to " + newName + "!", Toast.LENGTH_SHORT).show();
                     }
-                    else
-                        Toast.makeText(getBaseContext(),"Rename failed! " +
-                                "Set already exists!",Toast.LENGTH_SHORT).show();
+                    else {
+                        String msg = "Rename failed! Set already exists!";
+                        errorDialog(msg);
+                    }
                 }
             }
         }
+    }
+
+    public void errorDialog(String msg){
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainMenu.this);
+        alert.setMessage(msg);
+        alert.setTitle("Error Message");
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Do nothing
+            }
+        });
+        alert.show();
     }
 
     //Adds app icon to toolbar and adjusts placement of title
@@ -341,7 +353,12 @@ public class MainMenu extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 String newName = textField.getText().toString();
-                fileRename(Names.get(position), newName);
+                if(newName.length() > 0)
+                    fileRename(Names.get(position), newName);
+                else{
+                    String msg = "Rename set failed! Set names need to be at least one character long!";
+                    errorDialog(msg);
+                }
                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.RESULT_UNCHANGED_SHOWN);
 
             }
