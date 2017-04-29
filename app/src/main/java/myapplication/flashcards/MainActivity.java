@@ -7,6 +7,9 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -51,8 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String setName;
     private static final int DIALOG_ID = 0;
     private int setHour, setMinute;
-    //private int extraPosition;
-    //private ArrayList<Set> Sets;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     answers.add("");
                     textField.setText("");
                     lvItems.setSelection(itemsAdapter.getCount() - 1);
-                    checkNoSetExists();
+                    checkNoQuestionsExists();
 
                 }
 
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
 
         fileRead();
-        checkNoSetExists();
+        checkNoQuestionsExists();
     }
 
     @Override
@@ -238,12 +241,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    //Check if number of sets is zero. If true, show message
-    private void checkNoSetExists(){
+    //Check if number of questions is zero. If true, show message
+    private void checkNoQuestionsExists(){
         TextView msg = (TextView) findViewById(R.id.msg);
         ImageView icon = (ImageView) findViewById(R.id.icon);
         assert msg != null;
         assert icon != null;
+
+
+        int height = getScreenHeight();
+
+        Bitmap bitmap = scaleBitmap(icon, height/8, height/8);
+        icon.setImageBitmap(bitmap);
+
         if (questions.size() == 0) {
             msg.setVisibility(View.VISIBLE);
             icon.setVisibility(View.VISIBLE);
@@ -255,6 +265,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    //converts imageView icon into bitmap to scale dimensions
+    public Bitmap scaleBitmap(ImageView icon, int height, int width){
+
+        //convert imageview -> bimap -> drawable to scale image
+        Drawable drawableIcon = icon.getDrawable();
+        Bitmap bitmap = ((BitmapDrawable) drawableIcon).getBitmap();
+        drawableIcon = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, height, width, true));
+
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) drawableIcon;
+        bitmap = bitmapDrawable.getBitmap();
+        return bitmap;
+    }
+
+    public int getScreenHeight(){
+
+        //get height of the device's screen
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+
+        return height;
+    }
 
 
     // Attaches a long click listener and click listener to the listview
@@ -276,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     answers.remove(getPos());
                                     // Refresh the adapter
                                     itemsAdapter.notifyDataSetChanged();
-                                    checkNoSetExists();
+                                    checkNoQuestionsExists();
                                      }
                                 })
                      .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
