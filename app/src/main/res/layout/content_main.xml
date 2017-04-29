@@ -47,4 +47,27 @@
         android:layout_alignRight="@+id/lvItems"
         android:layout_alignEnd="@+id/lvItems" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="No questions yet, type below to add questions."
+        android:textStyle="italic"
+        android:textColor="#7e7e7e"
+        android:id="@+id/msg"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icon"
+        android:layout_below="@+id/msg"
+        android:layout_centerHorizontal="true"
+        android:alpha="0.4"
+        android:src="@android:drawable/ic_search_category_default" />
+
 </RelativeLayout>

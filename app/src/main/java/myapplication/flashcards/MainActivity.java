@@ -25,7 +25,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     answers.add("");
                     textField.setText("");
                     lvItems.setSelection(itemsAdapter.getCount() - 1);
+                    checkNoSetExists();
 
                 }
 
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
 
         fileRead();
+        checkNoSetExists();
     }
 
     @Override
@@ -234,6 +238,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    //Check if number of sets is zero. If true, show message
+    private void checkNoSetExists(){
+        TextView msg = (TextView) findViewById(R.id.msg);
+        ImageView icon = (ImageView) findViewById(R.id.icon);
+        assert msg != null;
+        assert icon != null;
+        if (questions.size() == 0) {
+            msg.setVisibility(View.VISIBLE);
+            icon.setVisibility(View.VISIBLE);
+        }
+        else {
+            msg.setVisibility(View.GONE);
+            icon.setVisibility(View.GONE);
+        }
+    }
+
+
 
 
     // Attaches a long click listener and click listener to the listview
@@ -255,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     answers.remove(getPos());
                                     // Refresh the adapter
                                     itemsAdapter.notifyDataSetChanged();
+                                    checkNoSetExists();
                                      }
                                 })
                      .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
