@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onClick(View v) {
                     EditText textField = (EditText) findViewById(R.id.textField);
                     String itemText = textField.getText().toString();
+                    itemText= itemText.replace('\n',' ');
                     itemsAdapter.add(itemText);
                     answers.add("");
                     textField.setText("");
