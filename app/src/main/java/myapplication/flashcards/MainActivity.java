@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -136,6 +137,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     expandedField.requestFocus();
                     InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(expandedField, InputMethodManager.SHOW_IMPLICIT);
+
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) lvItems.getLayoutParams();
+                    params.addRule(RelativeLayout.ABOVE, R.id.expandedTextField);
                 }
 
                 return true;
@@ -154,9 +158,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if((int)expandedField.getTag() != newVis) {
                     expandedField.setTag(expandedField.getVisibility());
                     if(expandedField.getVisibility()== View.GONE) {
+
                         Log.d("STATE", "COLLAPSED");
                         String content = expandedField.getText().toString();
                         textField.setText(content);
+
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) lvItems.getLayoutParams();
+                        View root = findViewById(android.R.id.content);
+                        int heightDiff = root.getRootView().getHeight()- root.getHeight();
+                        params.height += heightDiff;
+                        lvItems.setLayoutParams(params);
+                        params.addRule(RelativeLayout.ABOVE, R.id.textField);
+
 
                     }
                 }
@@ -356,36 +369,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupListViewListener() {
 
         lvItems.setOnItemLongClickListener(new OnItemLongClickListener() {
-        @Override
-
-        public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
-              // Remove the item within array at position
-              position = pos;
-              new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("Delete entry")
-                    .setMessage("Are you sure you want to delete this entry?")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                             public void onClick(DialogInterface dialog, int which) {
-                                    // continue with delete
-                                    questions.remove(getPos());
-                                    answers.remove(getPos());
-                                    // Refresh the adapter
-                                    itemsAdapter.notifyDataSetChanged();
-                                    checkNoQuestionsExists();
-                                     }
-                                })
-                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                    // do nothing
-                            }
-                                 })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-                    // Return true consumes the long click event (marks it handled)
-                 return true;
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
+                // Remove the item within array at position
+                position = pos;
+                new AlertDialog.Builder(MainActivity.this)
+                     .setTitle("Delete entry")
+                     .setMessage("Are you sure you want to delete this entry?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                     public void onClick(DialogInterface dialog, int which) {
+                         //continue with delete
+                            questions.remove(getPos());
+                            answers.remove(getPos());
+                        //Refresh the adapter
+                            itemsAdapter.notifyDataSetChanged();
+                            checkNoQuestionsExists();
+                      }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
                     }
-                }
-        );
+                })
+                 .setIcon(android.R.drawable.ic_dialog_alert)
+                 .show();
+                 // Return true consumes the long click event (marks it handled)
+                 return true;
+                 }
+        });
+
         final Intent[] intent = {null};
         lvItems.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
@@ -433,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(data.contains("\n")){
                     data = data.substring(0, data.length()-1);
                     if((row & 1) == 0)
-                         itemsAdapter.add(data);
+                        itemsAdapter.add(data);
                     else
                         answers.add(data);
                     data = "";
