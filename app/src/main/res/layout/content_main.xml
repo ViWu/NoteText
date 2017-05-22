@@ -8,6 +8,7 @@
     tools:context="myapplication.flashcards.MainActivity"
     tools:showIn="@layout/activity_main"
     android:background="@layout/bg"
+    android:id="@+id/root"
 
     >
 
@@ -69,5 +70,19 @@
         android:layout_centerHorizontal="true"
         android:alpha="0.4"
         android:src="@android:drawable/ic_search_category_default" />
+
+    <myapplication.flashcards.DynamicEditText
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:id="@+id/expandedTextField"
+        android:background="@layout/textbox"
+        android:hint="Type to add question..."
+        android:gravity="top"
+        android:padding="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="3"
+        android:layout_toStartOf="@+id/btnAddItem" />
 
 </RelativeLayout>

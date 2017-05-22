@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,8 +24,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -87,12 +92,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void onClick(View v) {
-                    EditText textField = (EditText) findViewById(R.id.textField);
-                    String itemText = textField.getText().toString();
+                    //EditText textField = (EditText) findViewById(R.id.textField);
+                    final DynamicEditText expandedField = (DynamicEditText) findViewById(R.id.expandedTextField);
+                    String itemText = expandedField.getText().toString();
                     itemText= itemText.replace('\n',' ');
                     itemsAdapter.add(itemText);
                     answers.add("");
-                    textField.setText("");
+                    expandedField.setText("");
                     lvItems.setSelection(itemsAdapter.getCount() - 1);
                     checkNoQuestionsExists();
 
@@ -101,6 +107,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
         }
 
+        final DynamicEditText expandedField = (DynamicEditText) findViewById(R.id.expandedTextField);
+        final EditText textField = (EditText) findViewById(R.id.textField);
+
+        assert expandedField != null;
+        expandedField.setVisibility(View.GONE);
+
+        onExpandListener(expandedField, textField);
+        onCollapseListener(expandedField, textField);
+        setUpDrawer(toolbar);
+
+        fileRead();
+        checkNoQuestionsExists();
+    }
+
+    public void onExpandListener(final EditText expandedField, final EditText textField){
+
+        expandedField.setVisibility(View.GONE);
+
+        textField.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(MotionEvent.ACTION_UP == event.getAction()) {
+                    Log.d("STATE", "Text field clicked!");
+                    expandedField.setVisibility(View.VISIBLE);
+                    //textField.setVisibility(View.GONE);
+
+                    expandedField.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(expandedField, InputMethodManager.SHOW_IMPLICIT);
+                }
+
+                return true;
+            }
+        });
+    }
+
+    public void onCollapseListener(final EditText expandedField, final EditText textField){
+
+        expandedField.setTag(expandedField.getVisibility());
+        ViewTreeObserver observer = expandedField.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int newVis = expandedField.getVisibility();
+                if((int)expandedField.getTag() != newVis) {
+                    expandedField.setTag(expandedField.getVisibility());
+                    if(expandedField.getVisibility()== View.GONE) {
+                        Log.d("STATE", "COLLAPSED");
+                        String content = expandedField.getText().toString();
+                        textField.setText(content);
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    public void setUpDrawer(Toolbar toolbar){
         //set up drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer != null) {
@@ -112,9 +177,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
-
-        fileRead();
-        checkNoQuestionsExists();
     }
 
     @Override
