@@ -14,7 +14,7 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="460dp"
+        android:layout_height="wrap_content"
         android:id="@+id/lvItems"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -25,7 +25,7 @@
         android:scrollbars="vertical"/>
 
     <EditText
-        android:layout_width="280dp"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/textField"
         android:background="@layout/textbox"
@@ -36,7 +36,8 @@
         android:layout_alignStart="@+id/lvItems"
         android:hint="Type to add question..."
         android:singleLine="true"
-        android:scrollHorizontally="true"/>
+        android:scrollHorizontally="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
