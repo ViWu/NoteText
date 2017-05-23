@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final DynamicEditText expandedField = (DynamicEditText) findViewById(R.id.expandedTextField);
         final EditText textField = (EditText) findViewById(R.id.textField);
         final View rectCollapsed = (View) findViewById(R.id.rect_collapsed);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         assert expandedField != null;
         expandedField.setVisibility(View.GONE);
