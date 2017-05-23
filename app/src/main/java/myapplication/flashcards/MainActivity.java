@@ -87,6 +87,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
 
+        final DynamicEditText expandedField = (DynamicEditText) findViewById(R.id.expandedTextField);
+        final EditText textField = (EditText) findViewById(R.id.textField);
+        final View rectCollapsed = (View) findViewById(R.id.rect_collapsed);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         //add questions to listView by typing and clicking the add button
         Button addButton = (Button) findViewById(R.id.btnAddItem);
         if (addButton != null) {
@@ -95,12 +100,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onClick(View v) {
                     //EditText textField = (EditText) findViewById(R.id.textField);
-                    final DynamicEditText expandedField = (DynamicEditText) findViewById(R.id.expandedTextField);
-                    String itemText = expandedField.getText().toString();
+                    String itemText;
+                    if(expandedField.getVisibility() == View.VISIBLE) {
+                        itemText = expandedField.getText().toString();
+                        expandedField.setText("");
+                    }
+                    else {
+                        itemText = textField.getText().toString();
+                        textField.setText("");
+                    }
                     itemText= itemText.replace('\n',' ');
                     itemsAdapter.add(itemText);
                     answers.add("");
-                    expandedField.setText("");
                     lvItems.setSelection(itemsAdapter.getCount() - 1);
                     checkNoQuestionsExists();
 
@@ -108,11 +119,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             });
         }
-
-        final DynamicEditText expandedField = (DynamicEditText) findViewById(R.id.expandedTextField);
-        final EditText textField = (EditText) findViewById(R.id.textField);
-        final View rectCollapsed = (View) findViewById(R.id.rect_collapsed);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         assert expandedField != null;
         assert textField != null;
