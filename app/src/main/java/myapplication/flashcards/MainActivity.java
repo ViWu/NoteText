@@ -151,6 +151,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     rectCollapsed.getLayoutParams().height = textField.getHeight() * 2 + 100;
                     expandedField.setVisibility(View.VISIBLE);
 
+                    String content = textField.getText().toString();
+                    expandedField.setText(content);
+
                     expandedField.requestFocus();
                     InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(expandedField, InputMethodManager.SHOW_IMPLICIT);
