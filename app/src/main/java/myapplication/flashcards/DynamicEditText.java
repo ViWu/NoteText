@@ -18,16 +18,20 @@ public class DynamicEditText extends EditText {
 
     @Override
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            // User has pressed Back key. So hide the keyboard
+            //Detect back press to hide soft keyboard
             InputMethodManager mgr = (InputMethodManager)
                     context.getSystemService(Context.INPUT_METHOD_SERVICE);
             mgr.hideSoftInputFromWindow(this.getWindowToken(), 0);
 
             final DynamicEditText expandedField = (DynamicEditText) findViewById(R.id.expandedTextField);
-            //final EditText textField = (EditText) findViewById(R.id.textField);
-            expandedField.setVisibility(View.GONE);
-            //textField.setVisibility(View.VISIBLE);
+            String content = expandedField.getText().toString();
+
+            //Don't collapse if there's content
+            if(content.length() == 0)
+                expandedField.setVisibility(View.GONE);
+
             return true;
         }
         return super.onKeyPreIme(keyCode, event);

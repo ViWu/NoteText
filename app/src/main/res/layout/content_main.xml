@@ -42,6 +42,7 @@
         android:id="@+id/textField"
         android:background="@layout/textbox"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_alignTop="@+id/btnAddItem"
         android:layout_alignLeft="@+id/lvItems"
         android:layout_alignStart="@+id/lvItems"

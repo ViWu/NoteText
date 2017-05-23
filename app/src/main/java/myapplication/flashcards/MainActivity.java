@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         assert expandedField != null;
         expandedField.setVisibility(View.GONE);
+        textField.setCursorVisible(true);
 
         onExpandListener(expandedField, textField, rectCollapsed);
         onCollapseListener(expandedField, textField, rectCollapsed);
@@ -162,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Log.d("STATE", "COLLAPSED");
                         String content = expandedField.getText().toString();
                         textField.setText(content);
+                        textField.requestFocus();
                         rectCollapsed.getLayoutParams().height = textField.getHeight() + 100;
 
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) lvItems.getLayoutParams();
