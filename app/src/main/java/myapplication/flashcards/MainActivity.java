@@ -114,15 +114,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final View rectCollapsed = (View) findViewById(R.id.rect_collapsed);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        rectCollapsed.post(new Runnable() {
-            @Override
-            public void run() {
-                rectCollapsed.getLayoutParams().height = textField.getHeight() + 100;
-            }
-        });
-
-
         assert expandedField != null;
+        assert textField != null;
+
+        if(rectCollapsed != null) {
+
+            rectCollapsed.post(new Runnable() {
+                @Override
+                public void run() {
+                    rectCollapsed.getLayoutParams().height = textField.getHeight() + 100;
+                }
+            });
+
+        }
+
+
         expandedField.setVisibility(View.GONE);
         textField.setCursorVisible(true);
 
@@ -178,11 +184,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) lvItems.getLayoutParams();
                         View root = findViewById(android.R.id.content);
-                        int heightDiff = root.getRootView().getHeight()- root.getHeight();
-                        params.height += heightDiff;
-                        lvItems.setLayoutParams(params);
-                        params.addRule(RelativeLayout.ABOVE, R.id.textField);
-
+                        if(root != null) {
+                            int heightDiff = root.getRootView().getHeight() - root.getHeight();
+                            params.height += heightDiff;
+                            lvItems.setLayoutParams(params);
+                            params.addRule(RelativeLayout.ABOVE, R.id.textField);
+                        }
 
                     }
                 }
