@@ -114,6 +114,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final View rectCollapsed = (View) findViewById(R.id.rect_collapsed);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        rectCollapsed.post(new Runnable() {
+            @Override
+            public void run() {
+                rectCollapsed.getLayoutParams().height = textField.getHeight() + 100;
+            }
+        });
+
+
         assert expandedField != null;
         expandedField.setVisibility(View.GONE);
         textField.setCursorVisible(true);
