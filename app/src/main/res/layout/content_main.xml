@@ -23,21 +23,51 @@
         android:layout_alignParentTop="true"
         android:paddingTop="50dp"
         android:scrollbars="vertical"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/rect_collapsed"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="#777777"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:id="@+id/textField"
         android:background="@layout/textbox"
-        android:padding="15dp"
-        android:layout_toLeftOf="@+id/btnAddItem"
+        android:paddingLeft="10dp"
         android:layout_alignTop="@+id/btnAddItem"
         android:layout_alignLeft="@+id/lvItems"
         android:layout_alignStart="@+id/lvItems"
         android:hint="Type to add question..."
         android:singleLine="true"
         android:scrollHorizontally="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toStartOf="@+id/btnAddItem" />
+
+    <myapplication.flashcards.DynamicEditText
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/expandedTextField"
+        android:background="@layout/textbox"
+        android:layout_margin="10dp"
+        android:hint="Type to add question..."
+        android:gravity="top"
+        android:padding="8dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="3"
+        android:layout_toStartOf="@+id/btnAddItem" />
 
     <Button
         android:layout_width="wrap_content"
@@ -45,6 +75,7 @@
         android:text="Add"
         android:id="@+id/btnAddItem"
         android:background="@layout/button"
+        android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/lvItems"
         android:layout_alignEnd="@+id/lvItems" />
@@ -72,18 +103,6 @@
         android:alpha="0.4"
         android:src="@android:drawable/ic_search_category_default" />
 
-    <myapplication.flashcards.DynamicEditText
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:id="@+id/expandedTextField"
-        android:background="@layout/textbox"
-        android:hint="Type to add question..."
-        android:gravity="top"
-        android:padding="10dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:inputType="textCapSentences|textMultiLine"
-        android:maxLines="3"
-        android:layout_toStartOf="@+id/btnAddItem" />
+
 
 </RelativeLayout>

@@ -110,29 +110,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         final DynamicEditText expandedField = (DynamicEditText) findViewById(R.id.expandedTextField);
         final EditText textField = (EditText) findViewById(R.id.textField);
+        final View rectCollapsed = (View) findViewById(R.id.rect_collapsed);
 
         assert expandedField != null;
         expandedField.setVisibility(View.GONE);
 
-        onExpandListener(expandedField, textField);
-        onCollapseListener(expandedField, textField);
+        onExpandListener(expandedField, textField, rectCollapsed);
+        onCollapseListener(expandedField, textField, rectCollapsed);
         setUpDrawer(toolbar);
 
         fileRead();
         checkNoQuestionsExists();
     }
 
-    public void onExpandListener(final EditText expandedField, final EditText textField){
-
-        expandedField.setVisibility(View.GONE);
+    public void onExpandListener(final EditText expandedField, final EditText textField, final View rectCollapsed){
 
         textField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(MotionEvent.ACTION_UP == event.getAction()) {
                     Log.d("STATE", "Text field clicked!");
+                    expandedField.getLayoutParams().height = textField.getHeight() * 2;
+                    rectCollapsed.getLayoutParams().height = textField.getHeight() * 2 + 100;
                     expandedField.setVisibility(View.VISIBLE);
-                    //textField.setVisibility(View.GONE);
 
                     expandedField.requestFocus();
                     InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    public void onCollapseListener(final EditText expandedField, final EditText textField){
+    public void onCollapseListener(final EditText expandedField, final EditText textField, final View rectCollapsed){
 
         expandedField.setTag(expandedField.getVisibility());
         ViewTreeObserver observer = expandedField.getViewTreeObserver();
@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Log.d("STATE", "COLLAPSED");
                         String content = expandedField.getText().toString();
                         textField.setText(content);
+                        rectCollapsed.getLayoutParams().height = textField.getHeight() + 100;
 
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) lvItems.getLayoutParams();
                         View root = findViewById(android.R.id.content);
