@@ -29,6 +29,6 @@
         android:id="@+id/textView"
         android:layout_width="112dp"
         android:layout_height="match_parent"
-        android:text="Release v 2.0" />
+        android:text="Release v 2.1" />
 
 </LinearLayout>
