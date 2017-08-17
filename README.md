@@ -8,11 +8,14 @@ Note Text is now available for download in the Amazon app store!
 <br>
 
 ## Description
-A study app for Android where you can create your own set(s) of flashcards! Allows the user to create, edit, view, save, and 
-delete sets at their own convenience without having to spend money on notecards. Also, this app is user friendly and 
-provides a visually stunning UI that enhances the overall user experience. 
-In addition, this app even provides a feature that allows the user to set future notifictions to remind them to study! This app strives to help put an end to procrastination and help users become more disciplined! So what are you waiting for? Try it today, it's free!
+Tired of spending money on note cards or downloading similar apps that ask for your private information like location? Too often, we have a tendency to put off mundane tasks and say we'll do it later, just to end up forgetting. Studying is no exception.
 
+Note Text aims to solve these problems by providing a user friendly alternative that lets users create, edit, and review sets of flashcards, all without putting your personal information at risk. It also includes a built-in timer that the user can set for up to 24 hours. Once the time is up, the app will push a notification reminding the user to review that certain set!
+
+This app strives to put an end to procrastination and help users become more disciplined. v2.1 is now available for download in the Amazon app store!
+
+
+<img src="https://github.com/ViWu/NoteText/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"  width="160">
 
 Minimum Operating System: Android 4.2 (Jelly Bean)
 <br>
@@ -28,4 +31,3 @@ Screenshots
 
 |<img src="https://github.com/ViWu/NoteText/blob/master/app/src/main/res/drawable/screenshot2.png">  | <img src="https://github.com/ViWu/NoteText/blob/master/app/src/main/res/drawable/screenshot1.png" > | <img src="https://github.com/ViWu/NoteText/blob/master/app/src/main/res/drawable/screenshot4.png">
 |----------------|----------------|----------------|
-
