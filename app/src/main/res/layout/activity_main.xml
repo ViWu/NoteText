@@ -9,10 +9,113 @@ android:layout_height="match_parent"
 android:fitsSystemWindows="true"
 tools:openDrawer="start">
 
-<include
-    layout="@layout/content_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="myapplication.flashcards.MainActivity"
+        tools:showIn="@layout/activity_main"
+        android:background="@layout/bg"
+        android:id="@+id/root"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="No questions yet, type below to add questions."
+            android:textStyle="italic"
+            android:textColor="#7e7e7e"
+            android:id="@+id/msg"
+            android:layout_marginTop="120dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/icon"
+            android:layout_below="@+id/msg"
+            android:layout_centerHorizontal="true"
+            android:alpha="0.4"
+            android:src="@android:drawable/ic_search_category_default" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lvItems"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@+id/textField"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:paddingTop="50dp"
+            android:scrollbars="vertical"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/rect_collapsed"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:background="#777777"
+                android:layout_gravity="bottom" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/textField"
+            android:background="@layout/textbox"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_alignTop="@+id/btnAddItem"
+            android:layout_alignLeft="@+id/lvItems"
+            android:layout_alignStart="@+id/lvItems"
+            android:hint="Type to add question..."
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toStartOf="@+id/btnAddItem" />
+
+        <myapplication.flashcards.DynamicEditText
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/expandedTextField"
+            android:background="@layout/textbox"
+            android:layout_margin="10dp"
+            android:hint="Type to add question..."
+            android:gravity="top"
+            android:padding="8dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="3"
+            android:layout_toStartOf="@+id/btnAddItem" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:id="@+id/btnAddItem"
+            android:background="@layout/button"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/lvItems"
+            android:layout_alignEnd="@+id/lvItems" />
+
+
+
+    </RelativeLayout>
+
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
